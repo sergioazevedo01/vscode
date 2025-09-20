@@ -1,34 +1,30 @@
-from Models.Pessoa import Pessoa
+import csv 
+import time
 
-def menu():
-    print("===Menu===")
-    print("1 - CRIAR PESSOA")
-    print("2 - LISTAR PESSOAS")
-    print("3 - LIMPAR LISTA")
-    print("9 - sair do sistema")
+ARQUIVO = "produtos.csv"
 
-def iniciarSistema():
-    print("Sistema Iniciado")
-    pessoas = []                              # CRIAR LISTA DE PESSOAS 
+# ASSIM QUE EXECUTAR ELE VERIFICA SE O ARQUIVO EXISTE E CRIA
 
-    while (True) :
-        menu()
-        opcao = input("Selecione uma opçao ... ")
-        
-        if opcao == "1":
-            nome = input("Digite o nome da pessoa ...")
-            email = input("Digite o email da pessoa ...")
-            pessoa = Pessoa(nome, email)      # MANIFESTANDO A ENTIDADE PESSOA 
-            pessoas.append(pessoa)            # ADICIONAR PESSOA A LISTA DE PESSSOAS 
-        elif opcao == "2" :
-            for pessoa in pessoas :
-                print(f'\033[31mNome: {pessoa.get_nome()}, \nEmail: {pessoa.get_email()}\033[m')
-                      
-            
-        
-
-# Logica para iniciar automaticamente 
-
-if __name__ == "__main__" :
-    iniciarSistema ()
-
+try:
+    # x -> MODELO UNICO DE CRIAÇAO 
+    with open(ARQUIVO, "x", newline="") as arquivo :
+        escritor = csv.writer(arquivo)
+        escritor.witerow(["Nome", "Quantidade", "Preco"])
+except :
+    pass # SE JA EXISTE O ARQUIVO ELE SEGUE EM FRENTE 
+while True :
+    nome = input("Digite o nome do Produto: ")
+    quantidade = int(input("Digite a quantidade: "))
+    preco = float(input("Digite o preco: "))
+     
+# ESCREVER NO ARQUIVO CSV
+    with open(ARQUIVO, "a", newline="") as arquivo:
+        escritor = csv.writer(arquivo)
+        escritor.writerow([nome, quantidade, preco])
+    print        (f"Produto {nome} adicionado com sucesso ")
+    # PERGUNTAR SE DESEJA CONTINUAR O SISTEMA 
+    continuar = input("Deseja adicionar outro? (s/n): ")
+    if continuar == "n":
+        print("Encerrando o sistema...")
+        break
+      
